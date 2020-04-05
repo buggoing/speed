@@ -1,3 +1,5 @@
+#![feature(exclusive_range_pattern)]
+
 use clap::{App, AppSettings, Arg};
 use std::io::prelude::*;
 use std::net::{TcpListener, TcpStream};
@@ -140,16 +142,16 @@ fn recv_client(servers: Vec<&str>, client_num: usize) {
         time_last = time_now;
         recv_last = recv_total;
         let speed = match recv_bit {
-            0..=K_BIT => format!("{:.2} bps", recv_bit as f64 / elapsed.as_secs_f64()),
-            K_BIT..=M_BIT => format!(
+            0..K_BIT => format!("{:.2} bps", recv_bit as f64 / elapsed.as_secs_f64()),
+            K_BIT..M_BIT => format!(
                 "{:.2} Kbps",
                 (recv_bit as f64 / K_BIT as f64) / elapsed.as_secs_f64()
             ),
-            M_BIT..=G_BIT => format!(
+            M_BIT..G_BIT => format!(
                 "{:.2} Mbps",
                 (recv_bit as f64 / M_BIT as f64) / elapsed.as_secs_f64()
             ),
-            G_BIT..=T_BIT => format!(
+            G_BIT..T_BIT => format!(
                 "{:.2} Gbps",
                 (recv_bit as f64 / G_BIT as f64) / elapsed.as_secs_f64()
             ),
